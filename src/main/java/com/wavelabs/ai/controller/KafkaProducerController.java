@@ -15,29 +15,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class KafkaProducerController {
 
-	@Autowired
-	private KafkaTemplate<String, MarketData> marketData;
+    /**
+     * The constant logger.
+     */
+    public static Logger logger = LoggerFactory.getLogger("Cintroller");
+    /**
+     * The Market data producer.
+     */
+    @Autowired
+    MarketDataProducer marketDataProducer;
+    @Autowired
+    private KafkaTemplate<String, MarketData> marketData;
 
-	/**
-	 * The Market data producer.
-	 */
-	@Autowired
-	MarketDataProducer marketDataProducer;
-
-	/**
-	 * The constant logger.
-	 */
-	public static Logger logger = LoggerFactory.getLogger("Cintroller");
-
-	/**
-	 * Send message scheduler. It pushes a market data bean
-	 * to the topic every 5 seconds
-	 */
-	@Scheduled(cron = "*/5 * * * * *")
-	public void sendMessage() {
-		MarketData marketDataBean = marketDataProducer.generateMarketData();
-		logger.info("Market Data Bean:"+marketDataBean.toString());
-		marketData.send("sb-topic", marketDataBean);
-	}
+    /**
+     * Send message scheduler. It pushes a market data bean
+     * to the topic every 5 seconds
+     */
+    @Scheduled(cron = "*/5 * * * * *")
+    public void sendMessage() {
+        MarketData marketDataBean = marketDataProducer.generateMarketData();
+        logger.info("Market Data Bean:" + marketDataBean.toString());
+        marketData.send("sb-topic", marketDataBean);
+    }
 
 }
