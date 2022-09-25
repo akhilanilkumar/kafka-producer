@@ -9,6 +9,8 @@ import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * The service Market data producer.
@@ -16,7 +18,8 @@ import java.util.Random;
 @Service
 public class MarketDataProducer {
 
-    private static final List<String> ricCodes = List.of("A.HK", "B.HK", "C.HK", "D.HK", "E.HK", "F.HK", "G.HK", "H.HK", "I.HK", "J.HK", "K.HK", "L.HK", "M.HK", "N.HK", "O.HK", "P.HK", "Q.HK", "R.HK", "S.HK", "T.HK", "U.HK", "V.HK", "W.HK", "X.HK", "Y.HK", "Z.HK");
+    private static final List<String> ricCodes = IntStream.rangeClosed('A', 'Z').mapToObj(var -> (char) var + ".HK").collect(Collectors.toList());
+    ;
     private static Integer lastRic = BigInteger.ZERO.intValueExact();
 
     /**
